@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/tharaka-iclick/scopious-webhook/issues"
   },
-  "homepage": "https://github.com/tharaka-iclick/scopious-webhook#readme"
+  "homepage": "https://github.com/tharaka-iclick/scopious-webhook#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "netlify-cli": "^22.1.3",
+    "netlify-lambda": "^2.0.16",
+    "serverless-http": "^3.2.0"
+  }
 }
