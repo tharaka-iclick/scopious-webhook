@@ -259,52 +259,64 @@
 //   });
 // });
 
+// const express = require("express");
+// const bodyParser = require("body-parser");
+// const router = express.Router();
+// const serverless = require("serverless-http");
+
+// const app = express();
+// const PORT = process.env.PORT || 3000;
+
+// // Middleware to parse incoming JSON requests
+// app.use(
+//   bodyParser.json({
+//     strict: false, // Allows any JSON value (not just objects/arrays)
+//     type: "application/json", // Explicitly only parse application/json
+//     verify: (req, res, buf) => {
+//       req.rawBody = buf.toString("utf8");
+//       console.log("Raw incoming payload:", req.rawBody);
+//     },
+//   })
+// );
+
+// router.get("/", (req, res) => {
+//   res.send("App is running..");
+// });
+
+// app.post("/webhook", (req, res) => {
+//   console.log("Received webhook payload:", req.body);
+//   console.log("Headers:", JSON.stringify(req.headers, null, 2));
+//   // res.status(200).send("Webhook received successfully");
+//   res.status(200).json({
+//     message: "Webhook received successfully",
+//     parsedBody: req.body,
+//     rawBody: req.rawBody,
+//     headers: req.headers,
+//   });
+// });
+
+// app.use((err, req, res, next) => {
+//   console.error("❌ Error:", err.message);
+//   res.status(400).json({ error: err.message });
+// });
+
+// app.use("/.netlify/functions/app", router);
+
+// // Start the server
+// app.listen(PORT, () => {
+//   console.log(`Secure webhook server running on port ${PORT}`);
+// });
+
+// module.exports.handler = serverless(app);
+
 const express = require("express");
-const bodyParser = require("body-parser");
-const router = express.Router();
 const serverless = require("serverless-http");
-
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware to parse incoming JSON requests
-app.use(
-  bodyParser.json({
-    strict: false, // Allows any JSON value (not just objects/arrays)
-    type: "application/json", // Explicitly only parse application/json
-    verify: (req, res, buf) => {
-      req.rawBody = buf.toString("utf8");
-      console.log("Raw incoming payload:", req.rawBody);
-    },
-  })
-);
+const router = express.Router();
 
 router.get("/", (req, res) => {
   res.send("App is running..");
 });
 
-app.post("/webhook", (req, res) => {
-  console.log("Received webhook payload:", req.body);
-  console.log("Headers:", JSON.stringify(req.headers, null, 2));
-  // res.status(200).send("Webhook received successfully");
-  res.status(200).json({
-    message: "Webhook received successfully",
-    parsedBody: req.body,
-    rawBody: req.rawBody,
-    headers: req.headers,
-  });
-});
-
-app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-  res.status(400).json({ error: err.message });
-});
-
 app.use("/.netlify/functions/app", router);
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Secure webhook server running on port ${PORT}`);
-});
-
 module.exports.handler = serverless(app);
